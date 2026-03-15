@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>云端商城</title>
+    <style>
+      body {
+        font-family: Arial;
+        margin: 20px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      button {
+        margin: 2px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>云端商城</h1>
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>名称</th>
+          <th>库存</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 动态生成的行将放在这里 -->
+      </tbody>
+    </table>
+
+    <script src="common.js"></script>
+    <script>
+      // 定义本页面的渲染函数
+      window.renderProducts = function () {
+        const products = getProducts();
+        const tbody = document.querySelector("#productTable tbody");
+        tbody.innerHTML = ""; // 清空
+
+        products.forEach((p) => {
+          const row = document.createElement("tr");
+          row.innerHTML = `
+                    <td>${p.id}</td>
+                    <td>${p.name}</td>
+                    <td>${p.stock}</td>
+                    <td><button onclick="placeOrder(${p.id})" ${p.stock <= 0 ? "disabled" : ""}>下单</button></td>
+                `;
+          tbody.appendChild(row);
+        });
+      };
+
+      // 下单函数
+      window.placeOrder = function (id) {
+        let products = getProducts();
+        const index = products.findIndex((p) => p.id === id);
+        if (index !== -1 && products[index].stock > 0) {
+          products[index].stock -= 1;
+          saveProducts(products);
+        } else {
+          alert("库存不足或商品不存在");
+        }
+      };
+
+      // 初始渲染
+      window.renderProducts();
+    </script>
+  </body>
+</html>
