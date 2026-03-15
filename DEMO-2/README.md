@@ -64,6 +64,7 @@ node server.js
 - 首次运行时会自动创建 SQLite 数据库文件（data.db）
 - 数据库文件已添加到 `.gitignore`，不会被提交到 Git
 - 确保端口 3000 未被占用
+- node.js的服务会在上面安装依赖后出现，包括后续也不需要上传到github仓库占用内存。
 
 ## License
 
